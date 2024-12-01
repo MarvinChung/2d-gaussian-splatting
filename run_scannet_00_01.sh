@@ -1,0 +1,1 @@
+python train.py -s /home/marvin/Desktop/dataset/scannet0241/scene0241_01/exported

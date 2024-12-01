@@ -109,7 +109,10 @@ def fetchPly(path):
     vertices = plydata['vertex']
     positions = np.vstack([vertices['x'], vertices['y'], vertices['z']]).T
     colors = np.vstack([vertices['red'], vertices['green'], vertices['blue']]).T / 255.0
-    normals = np.vstack([vertices['nx'], vertices['ny'], vertices['nz']]).T
+    if 'nx' in vertices:
+        normals = np.vstack([vertices['nx'], vertices['ny'], vertices['nz']]).T
+    else:
+        normals = np.zeros((len(vertices), 3))
     return BasicPointCloud(points=positions, colors=colors, normals=normals)
 
 def storePly(path, xyz, rgb):
@@ -244,6 +247,7 @@ def readNerfSyntheticInfo(path, white_background, eval, extension=".png"):
         storePly(ply_path, xyz, SH2RGB(shs) * 255)
     try:
         pcd = fetchPly(ply_path)
+        print("fetchPly Success")
     except:
         pcd = None
 
